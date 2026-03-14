@@ -1,4 +1,4 @@
-asketball Training App
+Basketball Training App
 Mục tiêu: Xây dựng ứng dụng hỗ trợ tập luyện bóng rổ và thể lực.
 
 Công nghệ sử dụng
