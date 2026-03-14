@@ -13,3 +13,11 @@ Quản lý dự án: Khởi tạo môi trường ảo venv và cài đặt các 
 Thiết kế Database: Định nghĩa các bảng dữ liệu Exercise và UserProgress phục vụ project.
 Khởi tạo Backend: Xây dựng bộ khung API cơ bản với FastAPI.
 
+Báo cáo tiến độ Tuần 2
+Công việc đã hoàn thành 
+Thiết kế chi tiết cơ sở dữ liệu với SQLModel.
+Viết API lấy danh sách bài tập bóng rổ (GET /exercises).
+Viết API nạp bài tập mới (POST /exercises).
+Kiểm thử toàn bộ API trên Swagger UI và Postman.
+
+
