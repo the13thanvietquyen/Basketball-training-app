@@ -26,6 +26,14 @@ Hoàn thiện các Endpoints API: Lấy danh sách, xem chi tiết và thêm bà
 Nạp dữ liệu mẫu (Seed data) gồm 10 bài tập kỹ thuật bóng rổ chuyên sâu.
 Kiểm thử API thành công thông qua giao diện Swagger UI.
 
+Báo cáo tiến độ Tuần 4 (Tổng kết giai đoạn Backend)
+Công việc đã hoàn thành:
+Hoàn thiện logic tính toán tiến độ tập luyện hằng ngày.
+Tối ưu hóa API, bổ sung tính năng lọc bài tập theo danh mục kỹ thuật.
+Kiểm thử toàn bộ hệ thống (System Testing) và sửa các lỗi phát sinh.
+Đóng gói mã nguồn ổn định và cập nhật tài liệu hướng dẫn trên GitHub.
+
+
 
 
 
