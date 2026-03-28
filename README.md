@@ -20,6 +20,15 @@ Viết API lấy danh sách bài tập bóng rổ (GET /exercises).
 Viết API nạp bài tập mới (POST /exercises).
 Kiểm thử toàn bộ API trên Swagger UI và Postman.
 
+Báo cáo tiến độ Tuần 3
+Công việc đã hoàn thành:
+Hoàn thiện các Endpoints API: Lấy danh sách, xem chi tiết và thêm bài tập.
+Nạp dữ liệu mẫu (Seed data) gồm 10 bài tập kỹ thuật bóng rổ chuyên sâu.
+Kiểm thử API thành công thông qua giao diện Swagger UI.
+
+
+
+
 
 
 
