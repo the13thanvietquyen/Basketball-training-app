@@ -33,7 +33,15 @@ Tối ưu hóa API, bổ sung tính năng lọc bài tập theo danh mục kỹ 
 Kiểm thử toàn bộ hệ thống (System Testing) và sửa các lỗi phát sinh.
 Đóng gói mã nguồn ổn định và cập nhật tài liệu hướng dẫn trên GitHub.
 
+Báo cáo tuần 5
+Thiết lập môi trường phát triển Frontend.
+Xây dựng giao diện danh sách bài tập (Exercise List).
+Kết nối dữ liệu thời gian thực từ Backend FastAPI.
 
+Báo cáo tuần 6
+Tích hợp trình phát video hướng dẫn kỹ thuật.
+Xây dựng logic hoàn thành bài tập và đồng bộ Database.
+Thiết kế màn hình tổng quan tiến độ (User Dashboard).
 
 
 
