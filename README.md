@@ -6,42 +6,108 @@ Ngôn ngữ: Python 3.14 (Backend)
 Framework: FastAPI
 Database: SQLite & SQLModel
 
-Báo cáo tiến độ Tuần 1
-Các công việc đã hoàn thành
-Cài đặt môi trường: Thiết lập thành công Python 3.14 và VS Code IDE.
-Quản lý dự án: Khởi tạo môi trường ảo venv và cài đặt các thư viện lõi (fastapi, sqlmodel, uvicorn).
-Thiết kế Database: Định nghĩa các bảng dữ liệu Exercise và UserProgress phục vụ project.
-Khởi tạo Backend: Xây dựng bộ khung API cơ bản với FastAPI.
+Tuần 1 – Phân tích yêu cầu & thiết kế hệ thống
+Nội dung đã làm:
+Xác định mục tiêu:
+Phân tích video tập luyện bóng rổ
+Đếm số cú ném (shot)
+Hiển thị kết quả qua UI
+Nghiên cứu mô hình ứng dụng như HomeCourt
+Xác định hướng phát triển:
+Không realtime
+Xử lý video có sẵn (offline)
+Kết quả:
+Định nghĩa được input/output hệ thống
+Lựa chọn công nghệ:
+Python
+SQLite
+Computer Vision
 
-Báo cáo tiến độ Tuần 2
-Công việc đã hoàn thành 
-Thiết kế chi tiết cơ sở dữ liệu với SQLModel.
-Viết API lấy danh sách bài tập bóng rổ (GET /exercises).
-Viết API nạp bài tập mới (POST /exercises).
-Kiểm thử toàn bộ API trên Swagger UI và Postman.
+Tuần 2 – Thiết kế cơ sở dữ liệu
+Nội dung đã làm:
+Thiết kế các bảng:
+User
+Exercise
+Subscription
+Sử dụng:
+SQLModel
+SQLite
+Nhận xét:
+Database ban đầu thiên về hệ thống tổng thể
+Chưa gắn trực tiếp với xử lý video
 
-Báo cáo tiến độ Tuần 3
-Công việc đã hoàn thành:
-Hoàn thiện các Endpoints API: Lấy danh sách, xem chi tiết và thêm bài tập.
-Nạp dữ liệu mẫu (Seed data) gồm 10 bài tập kỹ thuật bóng rổ chuyên sâu.
-Kiểm thử API thành công thông qua giao diện Swagger UI.
+Tuần 3 – Xây dựng backend cơ bản
+Nội dung đã làm:
+Khởi tạo API với:
+FastAPI
+Tạo:
+endpoint /
+Kết nối database:
+create_db_and_tables()
+Kết quả:
+Backend chạy thành công
+Có thể test API
 
-Báo cáo tiến độ Tuần 4 (Tổng kết giai đoạn Backend)
-Công việc đã hoàn thành:
-Hoàn thiện logic tính toán tiến độ tập luyện hằng ngày.
-Tối ưu hóa API, bổ sung tính năng lọc bài tập theo danh mục kỹ thuật.
-Kiểm thử toàn bộ hệ thống (System Testing) và sửa các lỗi phát sinh.
-Đóng gói mã nguồn ổn định và cập nhật tài liệu hướng dẫn trên GitHub.
+Tuần 4 – Hoàn thiện cấu trúc backend
+Nội dung đã làm:
+Tổ chức project:
+main.py
+model.py
+Tạo engine SQLite
+Kiểm tra tạo bảng tự động
+Hạn chế:
+Chưa có logic xử lý video
+API chưa có chức năng chính
 
-Báo cáo tuần 5
-Thiết lập môi trường phát triển Frontend.
-Xây dựng giao diện danh sách bài tập (Exercise List).
-Kết nối dữ liệu thời gian thực từ Backend FastAPI.
+Tuần 5 – Tích hợp xử lý video (CORE)
+Nội dung đã làm:
+Xây dựng file processor.py
+Sử dụng:
+OpenCV
+Viết hàm:
+process_video(video_path)
+Kết quả:
+Đọc được video
+Duyệt frame
+Trả về kết quả (tạm thời)
 
-Báo cáo tuần 6
-Tích hợp trình phát video hướng dẫn kỹ thuật.
-Xây dựng logic hoàn thành bài tập và đồng bộ Database.
-Thiết kế màn hình tổng quan tiến độ (User Dashboard).
+Tuần 6 – Xây dựng API xử lý video
+Nội dung đã làm:
+Thêm endpoint:
+/process-video
+Xử lý:
+Upload video
+Lưu file
+Gọi process_video()
+Lưu kết quả vào database (Video model)
+Kết quả:
+Hệ thống hoạt động end-to-end:
+Upload → xử lý → trả kết quả
+
+Tuần 7 – Phát triển UI (bắt buộc theo môn)
+Nội dung sẽ làm:
+Xây dựng giao diện bằng:
+Streamlit (khuyến nghị)
+Tính năng:
+Upload video
+Hiển thị video
+Nút "Process"
+Hiển thị:
+total shots
+made shots
+Kết quả mong đợi:
+Demo trực quan cho người dùng
+
+Tuần 8 – Hoàn thiện & nâng cấp thuật toán
+Nội dung sẽ làm:
+Tích hợp:
+MediaPipe
+Cải thiện:
+detect chuyển động tay
+xác định cú ném
+(Optional):
+Tính góc ném
+Hiển thị biểu đồ
 
 
 
