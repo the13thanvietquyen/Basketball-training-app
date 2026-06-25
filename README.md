@@ -1,56 +1,175 @@
-Tuần 1: Nghiên cứu Nghiệp vụ & Xác định Yêu cầu
-Xác định mục tiêu ứng dụng: Hỗ trợ tập luyện bóng rổ thông minh cá nhân hóa cho 5 vị trí thi đấu (PG, SG, SF, PF, C).
-Thiết kế kiến trúc hệ thống: Chọn FastAPI (Python) làm Backend do tốc độ nhanh, SQLModel để tương tác database và React + TypeScript (Vite) làm Frontend để tối ưu hóa trải nghiệm người dùng.
+# 🏀 Pro Hoop Training — Ứng dụng Hỗ trợ Tập luyện Bóng rổ Thông minh
 
-Tuần 2: Thiết kế Cơ sở Dữ liệu & Wireframe UI
-Thiết kế ERD (Entity Relationship Diagram) cho cơ sở dữ liệu SQLite bao gồm bảng người dùng (User) và bảng bài tập (Exercise).
-Vẽ phác thảo giao diện (Wireframe) theo phong cách hiện đại: Dark theme chủ đạo kết hợp các vệt sáng neon cam/xanh và giao diện kính mờ (glassmorphism).
+> Ứng dụng web cá nhân hóa giáo án tập luyện bóng rổ theo **5 vị trí thi đấu** (PG, SG, SF, PF, C), tích hợp trình phát video hướng dẫn và giả lập Camera AI theo dõi động tác.
 
-GIAI ĐOẠN 2: XÂY DỰNG NỀN TẢNG BACKEND & APIS (Tuần 3 - Tuần 4)
-Tuần 3: Thiết lập Môi trường & Khởi tạo Database Models
-Cài đặt môi trường ảo Python (venv), cài đặt thư viện cần thiết (FastAPI, SQLModel, passlib, uvicorn, pydantic).
-Hiện thực hóa database schema trong tệp models.py với các lớp User và Exercise hỗ trợ lưu trữ thông tin độ khó, vị trí, buổi tập và liên kết video.
+---
 
-Tuần 4: Hoàn thiện API Đăng ký / Đăng nhập & CORS
-Viết logic đăng ký tài khoản (mã hóa mật khẩu bằng bcrypt) và đăng nhập xác thực tài khoản trong main.py.
-Cấu hình CORSMiddleware trên FastAPI để cho phép Frontend React giao tiếp an toàn qua các cổng khác nhau.
+## 📋 Mục lục
 
-GIAI ĐOẠN 3: PHÁT TRIỂN NỀN TẢNG FRONTEND & STYLE SYSTEM (Tuần 5 - Tuần 6)
-Tuần 5: Khởi tạo Project Frontend & Cấu hình Axios
-Khởi tạo dự án React + TypeScript bằng Vite. Cấu hình Axios (api.ts) hỗ trợ gọi API Backend một cách nhất quán.
-Xây dựng khung cấu trúc dự án bao gồm thư mục Components, Services và Assets.
+- [Tổng quan](#-tổng-quan)
+- [Tính năng chính](#-tính-năng-chính)
+- [Công nghệ sử dụng](#-công-nghệ-sử-dụng)
+- [Cấu trúc thư mục](#-cấu-trúc-thư-mục)
+- [Yêu cầu hệ thống](#-yêu-cầu-hệ-thống)
+- [Hướng dẫn cài đặt & chạy](#-hướng-dẫn-cài-đặt--chạy)
+- [Tài liệu dự án](#-tài-liệu-dự-án)
+- [Tác giả](#-tác-giả)
 
-Tuần 6: Xây dựng Hệ thống Design Tokens & CSS
-Xây dựng tệp App.css định nghĩa các biến màu sắc toàn cục (:root variables) với mã màu cam bóng rổ cao cấp và xanh cyan.
-Áp dụng font chữ hiện đại (Outfit từ Google Fonts) thay thế cho font mặc định của hệ thống.
-Thiết kế khối Glassmorphic Card có viền phát sáng động và các nút bấm bo cong mềm mại.
+---
 
-GIAI ĐOẠN 4: THỰC HIỆN TÍNH NĂNG CÁ NHÂN HÓA BÀI TẬP KỸ NĂNG (Tuần 7 - Tuần 8)
-Tuần 7: Tích hợp Lọc theo 5 Vị trí thi đấu (PG, SG, SF, PF, C)
-Cập nhật API /exercises/recommend ở Backend để nhận tham số lọc position.
-Tạo thanh chọn vị trí (Position Selector Tabs) ở Frontend, tự động gửi yêu cầu API mỗi khi người dùng thay đổi lựa chọn vị trí.
+## 🎯 Tổng quan
 
-Tuần 8: Triển khai Lưới Giáo án Lịch trình 4 Buổi/Tuần
-Bổ sung trường session vào cơ sở dữ liệu. Cập nhật mã nguồn nạp dữ liệu mẫu (seed.py) với 20 bài tập kỹ năng thực tế chia đều cho 5 vị trí × 4 buổi tập.
-Xây dựng cấu trúc lưới 4 cột (Buổi 1 đến Buổi 4) ở Frontend, hiển thị thẻ bài tập chi tiết và tự động cập nhật dữ liệu tương ứng.
+**Pro Hoop Training** là ứng dụng web hỗ trợ tập luyện bóng rổ thông minh, được thiết kế với giao diện hiện đại theo phong cách **Dark Theme + Glassmorphism**. Ứng dụng cung cấp giáo án cá nhân hóa dựa trên vị trí thi đấu của người chơi, bao gồm cả **giáo án kỹ năng** (4 buổi/tuần) và **giáo án thể lực** (3 ngày/tuần).
 
-GIAI ĐOẠN 5: TÍCH HỢP TRÌNH PHÁT VIDEO & GIẢ LẬP CAMERA AI (Tuần 9 - Tuần 10)
-Tuần 9: Khắc phục Lỗi Nhúng Video (Vấn đề SAMEORIGIN)
-Phát hiện lỗi YouTube chặn hiển thị iframe đối với đường dẫn xem trực tiếp (/watch?v=...).
-Phát triển thuật toán phân tích regex ở Frontend để tách ID video và tự động chuyển đổi thành định dạng link nhúng hợp lệ (/embed/...).
-Tạo cửa sổ trình xem video kính mờ (modal pop-up) phát trực tiếp ngay trên trang web.
+---
 
-Tuần 10: Giả lập Camera AI Theo dõi Động tác
-Sử dụng thư viện API webcam của trình duyệt để yêu cầu quyền truy cập và hiển thị luồng video camera trực tiếp trên bảng điều khiển.
-Viết logic giả lập thuật toán AI tracking: Quét chùm tia sáng quét ngang và hiển thị hộp phát hiện mục tiêu (Hoop Detected) cùng chấm tròn bám đuổi quả bóng chuyển động ngẫu nhiên.
-GIAI ĐOẠN 6: GIÁO ÁN THỂ LỰC (3 NGÀY), TỐI ƯU HÓA & ĐÓNG GÓI (Tuần 11 - Tuần 12)
+## ✨ Tính năng chính
 
-Tuần 11: Tích hợp Giáo án Thể lực & Sức mạnh (3 Ngày/Tuần)
-Mở rộng database schema: Bổ sung trường program_type vào database. Nạp thêm 15 bài tập thể chất mới vào seed.py.
-Tạo bộ lọc tab chuyển đổi Giáo án ở Frontend (không sử dụng emoji để duy trì phong cách tinh tế).
-Viết CSS responsive động cho lưới hiển thị: Tự động đổi thành 3 cột (Ngày 1 -> Ngày 3) đối với giáo án thể chất và 4 cột đối với giáo án kỹ năng.
+- 🔐 **Đăng ký / Đăng nhập** — Xác thực tài khoản với mật khẩu mã hóa bcrypt
+- 🏅 **Lọc theo 5 vị trí thi đấu** — PG, SG, SF, PF, C
+- 📅 **Giáo án Kỹ năng** — Lịch trình 4 buổi/tuần với bài tập chuyên biệt theo vị trí
+- 💪 **Giáo án Thể lực & Sức mạnh** — Lịch trình 3 ngày/tuần
+- 🎥 **Trình phát Video hướng dẫn** — Modal pop-up nhúng video YouTube
+- 📷 **Giả lập Camera AI** — Theo dõi động tác qua webcam trình duyệt với hiệu ứng quét tia sáng và hộp phát hiện mục tiêu
 
-Tuần 12: Kiểm thử, Tối ưu hóa Git & Bàn giao Dự án
-Tiến hành kiểm thử giao diện và độ tin cậy của liên kết video trên trình duyệt bằng các tác nhân AI ảo.
-Cấu hình lại Git: Untrack toàn bộ thư mục ảo venv và file nhị phân SQLite database.db để làm sạch mã nguồn.
-Đóng gói mã nguồn và đẩy lên GitHub thành công. Bàn giao sản phẩm chạy ổn định cục bộ.
+---
+
+## 🛠 Công nghệ sử dụng
+
+| Thành phần | Công nghệ |
+|------------|-----------|
+| **Frontend** | React 19 + TypeScript, Vite 8, Axios |
+| **Backend** | Python, FastAPI, SQLModel, Uvicorn |
+| **Database** | SQLite |
+| **Bảo mật** | bcrypt (passlib) |
+| **Giao diện** | CSS thuần (Dark Theme, Glassmorphism, Google Fonts - Outfit) |
+
+---
+
+## 📁 Cấu trúc thư mục
+
+```
+Basketball-App-Project/
+├── Backend/
+│   ├── main.py              # API chính (FastAPI) — Auth & Exercises
+│   ├── models.py            # Database schema (User, Exercise)
+│   ├── seed.py              # Nạp dữ liệu mẫu (35 bài tập)
+│   ├── requirements.txt     # Thư viện Python
+│   └── venv/                # Môi trường ảo (không đẩy lên Git)
+│
+├── Frontend/
+│   ├── src/
+│   │   ├── App.tsx          # Component chính
+│   │   ├── App.css          # Hệ thống Design Tokens & CSS
+│   │   ├── api.ts           # Cấu hình Axios
+│   │   ├── components/      # Các component tái sử dụng
+│   │   ├── screens/         # Các màn hình giao diện
+│   │   ├── context/         # React Context
+│   │   ├── hooks/           # Custom Hooks
+│   │   └── utils/           # Tiện ích
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── Document/
+│   ├── Daily Report/        # Báo cáo tiến độ hàng tuần
+│   ├── MidtermReport/       # Báo cáo giữa kỳ
+│   └── FinalReport/         # Báo cáo cuối kỳ
+│
+├── .gitignore
+└── README.md
+```
+
+---
+
+## 💻 Yêu cầu hệ thống
+
+- **Python** ≥ 3.10
+- **Node.js** ≥ 18
+- **npm** ≥ 9
+- **Git**
+
+---
+
+## 🚀 Hướng dẫn cài đặt & chạy
+
+### 1. Clone dự án
+
+```bash
+git clone https://github.com/the13thanvietquyen/Basketball-training-app.git
+cd Basketball-training-app
+```
+
+### 2. Cài đặt & chạy Backend
+
+```bash
+# Di chuyển vào thư mục Backend
+cd Backend
+
+# Tạo môi trường ảo Python
+python -m venv venv
+
+# Kích hoạt môi trường ảo
+# Windows:
+venv\Scripts\activate
+# macOS / Linux:
+# source venv/bin/activate
+
+# Cài đặt thư viện
+pip install -r requirements.txt
+
+# Nạp dữ liệu mẫu vào database (chỉ cần chạy 1 lần)
+python seed.py
+
+# Khởi động Backend server
+uvicorn main:app --reload
+```
+
+> 🟢 Backend sẽ chạy tại: **http://localhost:8000**
+>
+> 📖 Truy cập tài liệu API tự động tại: **http://localhost:8000/docs**
+
+### 3. Cài đặt & chạy Frontend
+
+Mở **terminal mới** (giữ nguyên terminal Backend đang chạy):
+
+```bash
+# Di chuyển vào thư mục Frontend
+cd Frontend
+
+# Cài đặt dependencies
+npm install
+
+# Khởi động Frontend dev server
+npm run dev
+```
+
+> 🟢 Frontend sẽ chạy tại: **http://localhost:5173**
+
+### 4. Sử dụng ứng dụng
+
+1. Mở trình duyệt và truy cập **http://localhost:5173**
+2. **Đăng ký** tài khoản mới hoặc **Đăng nhập** nếu đã có tài khoản
+3. Chọn **vị trí thi đấu** (PG / SG / SF / PF / C)
+4. Chuyển đổi giữa **Giáo án Kỹ năng** và **Giáo án Thể lực**
+5. Nhấn vào bài tập để xem **video hướng dẫn**
+6. Sử dụng tính năng **Camera AI** để theo dõi động tác tập luyện
+
+---
+
+## 📄 Tài liệu dự án
+
+| Tài liệu | Vị trí |
+|-----------|--------|
+| Báo cáo tiến độ hàng tuần | `Document/Daily Report/` |
+| Báo cáo giữa kỳ | `Document/MidtermReport/` |
+| Báo cáo cuối kỳ | `Document/FinalReport/` |
+
+---
+
+## 👨‍💻 Tác giả
+
+Dự án được phát triển bởi sinh viên trong khuôn khổ môn học thực tập tại trường.
+
+---
+
+> ⭐ Nếu bạn thấy dự án hữu ích, hãy để lại một **Star** trên GitHub!
