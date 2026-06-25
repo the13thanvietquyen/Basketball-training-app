@@ -14,6 +14,12 @@ interface Exercise {
   program_type?: string;
 }
 
+type HistoryEntry = {
+  id: number;
+  time: string;
+  event: string;
+};
+
 export default function App() {
   // Authentication states
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -31,13 +37,18 @@ export default function App() {
   // Daily statistics (mockable and dynamic)
   const [shots, setShots] = useState<number>(45);
   const [dribbles, setDribbles] = useState<number>(120);
-  const [practiceTime, setPracticeTime] = useState<number>(25); // in minutes
+  const [practiceTime] = useState<number>(25); // in minutes
 
   // AI Camera states
   const [cameraActive, setCameraActive] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [ballPos, setBallPos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
+  const [ballDetected, setBallDetected] = useState<boolean>(false);
+  const ballVelocity = useRef<{ x: number; y: number }>({ x: 2.5, y: 1.8 });
+
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
 
   // Position & Schedule States
   const [selectedPosition, setSelectedPosition] = useState<string>('PG');
@@ -59,8 +70,6 @@ export default function App() {
     { id: 'C', name: 'Trung phong', label: 'C', icon: '🛡️' }
   ];
 
-  const sessions = [1, 2, 3, 4];
-
   // Helper to extract YouTube embed URL
   const getYouTubeEmbedUrl = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -68,14 +77,35 @@ export default function App() {
     return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
   };
 
-  // Check login status from localStorage on load
+  // Load persisted history from localStorage
   useEffect(() => {
+    const savedHistory = localStorage.getItem('training_history');
+    if (savedHistory) {
+      try {
+        setHistory(JSON.parse(savedHistory));
+      } catch {
+        setHistory([]);
+      }
+    }
     const savedUser = localStorage.getItem('basketball_user');
     if (savedUser) {
       setIsLoggedIn(true);
       setUsername(savedUser);
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('training_history', JSON.stringify(history));
+  }, [history]);
+
+  const addHistoryEvent = (event: string) => {
+    const entry: HistoryEntry = {
+      id: Date.now(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      event,
+    };
+    setHistory((prev) => [entry, ...prev].slice(0, 12));
+  };
 
   // Fetch exercises from backend
   const fetchExercises = async () => {
@@ -184,6 +214,64 @@ export default function App() {
     fetchExercises();
   }, [filterCategory, filterDifficulty, selectedPosition, programType]);
 
+  const analyzeFrameForBall = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState < 2) {
+      setBallDetected(false);
+      return false;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      setBallDetected(false);
+      return false;
+    }
+
+    const width = 320;
+    const height = 180;
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx.drawImage(video, 0, 0, width, height);
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+
+    let totalX = 0;
+    let totalY = 0;
+    let count = 0;
+
+    for (let idx = 0; idx < data.length; idx += 4 * 6) {
+      const r = data[idx];
+      const g = data[idx + 1];
+      const b = data[idx + 2];
+
+      const isOrangeBall = r > 140 && g > 70 && b < 110 && r > g + 15 && r > b + 35;
+      if (isOrangeBall) {
+        const pixelIndex = idx / 4;
+        const x = pixelIndex % width;
+        const y = Math.floor(pixelIndex / width);
+        totalX += x;
+        totalY += y;
+        count += 1;
+      }
+    }
+
+    if (count > 25) {
+      const centerX = totalX / count;
+      const centerY = totalY / count;
+      setBallDetected(true);
+      setBallPos({
+        x: Math.min(90, Math.max(10, (centerX / width) * 100)),
+        y: Math.min(85, Math.max(15, (centerY / height) * 100)),
+      });
+      return true;
+    }
+
+    setBallDetected(false);
+    return false;
+  };
+
   // Webcam activation handler
   const startCamera = async () => {
     try {
@@ -195,10 +283,12 @@ export default function App() {
         videoRef.current.srcObject = stream;
       }
       setCameraActive(true);
+      addHistoryEvent('Bật AI Camera');
     } catch (err) {
       console.error('Không thể mở Camera:', err);
-      alert('Không thể truy cập camera của bạn. Đang chạy ở chế độ giả lập camera.');
-      setCameraActive(true);
+      alert('Không thể truy cập camera của bạn. Vui lòng kiểm tra quyền truy cập và thử lại.');
+      setCameraActive(false);
+      addHistoryEvent('Không mở được camera');
     }
   };
 
@@ -211,6 +301,8 @@ export default function App() {
       videoRef.current.srcObject = null;
     }
     setCameraActive(false);
+    setBallDetected(false);
+    addHistoryEvent('Tắt AI Camera');
   };
 
   const toggleCamera = () => {
@@ -223,17 +315,31 @@ export default function App() {
 
   // Simulate ball tracking movement when camera is active
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: number;
     if (cameraActive) {
-      interval = setInterval(() => {
-        setBallPos({
-          x: 20 + Math.random() * 60,
-          y: 30 + Math.random() * 50
-        });
-      }, 800);
+      interval = window.setInterval(() => {
+        const hasBall = analyzeFrameForBall();
+        if (!hasBall) {
+          setBallPos((current) => {
+            let nextX = current.x + ballVelocity.current.x;
+            let nextY = current.y + ballVelocity.current.y;
+            let dx = ballVelocity.current.x;
+            let dy = ballVelocity.current.y;
+
+            if (nextX <= 10 || nextX >= 90) dx = -dx;
+            if (nextY <= 15 || nextY >= 85) dy = -dy;
+
+            ballVelocity.current = { x: dx, y: dy };
+            nextX = Math.max(10, Math.min(90, current.x + dx));
+            nextY = Math.max(15, Math.min(85, current.y + dy));
+
+            return { x: nextX, y: nextY };
+          });
+        }
+      }, 100);
     }
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) window.clearInterval(interval);
     };
   }, [cameraActive]);
 
@@ -370,14 +476,15 @@ export default function App() {
                     playsInline 
                     muted 
                   />
+                  <canvas ref={canvasRef} className="camera-analysis-canvas" />
                   
                   <div className="scanner-beam"></div>
 
                   <div className="camera-hud">
                     <div className="hud-top">
                       <div className="hud-badge">FPS: 30</div>
-                      <div className="hud-badge" style={{ borderColor: 'var(--accent-orange)', color: 'var(--accent-orange)' }}>
-                        HOOP DETECTED: 95%
+                      <div className={`hud-badge ${ballDetected ? 'rec' : ''}`} style={{ borderColor: ballDetected ? '#22c55e' : 'var(--accent-orange)', color: ballDetected ? '#22c55e' : 'var(--accent-orange)' }}>
+                        {ballDetected ? 'BÓNG TRACKED' : 'TÌM BÓNG...'}
                       </div>
                     </div>
 
@@ -392,8 +499,8 @@ export default function App() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                       <div className="hud-badge">BÓNG RỔ: GRCH-38</div>
                       <div className="camera-controls-mock">
-                        <button className="btn-mock-action" onClick={() => setShots(prev => prev + 1)}>+ Ném vào</button>
-                        <button className="btn-mock-action" onClick={() => setDribbles(prev => prev + 10)}>+ 10 Nhồi</button>
+                        <button className="btn-mock-action" onClick={() => { setShots(prev => { const next = prev + 1; addHistoryEvent('Ghi nhận 1 cú ném thành công'); return next; }); }}>+ Ném vào</button>
+                        <button className="btn-mock-action" onClick={() => { setDribbles(prev => { const next = prev + 10; addHistoryEvent('Ghi nhận 10 nhồi bóng'); return next; }); }}>+ 10 Nhồi</button>
                       </div>
                     </div>
                   </div>
@@ -418,6 +525,25 @@ export default function App() {
               >
                 {cameraActive ? 'TẮT AI CAMERA' : 'BẬT AI CAMERA'}
               </button>
+            </div>
+
+            <div className="history-panel">
+              <div className="history-header">
+                <span>Lịch sử hoạt động</span>
+                <span>{history.length} mục</span>
+              </div>
+              {history.length > 0 ? (
+                <ul className="history-list">
+                  {history.map((entry) => (
+                    <li key={entry.id} className="history-item">
+                      <span className="history-time">{entry.time}</span>
+                      <span className="history-event">{entry.event}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="history-empty">Chưa có hoạt động nào. Bật camera hoặc chọn bài tập để bắt đầu.</div>
+              )}
             </div>
           </div>
 
@@ -542,6 +668,7 @@ export default function App() {
                                   onClick={() => {
                                     setActiveVideoUrl(ex.video_url);
                                     setActiveVideoTitle(ex.title);
+                                    addHistoryEvent(`Mở video hướng dẫn: ${ex.title}`);
                                   }}
                                   className="btn-watch compact-btn"
                                 >

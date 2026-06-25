@@ -287,14 +287,12 @@ body {
   padding: 2rem;
 }
 
-.camera-placeholder-icon {
-  font-size: 4rem;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 1; }
+.camera-analysis-canvas {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .btn-camera-toggle {
@@ -466,16 +464,7 @@ body {
   justify-content: center;
   box-shadow: var(--glow-cyan);
   transition: all 0.2s cubic-bezier(0.1, 0.8, 0.3, 1);
-}
-
-.ai-tracker-ball::after {
-  content: 'BALL 98%';
-  position: absolute;
-  bottom: -18px;
-  color: var(--accent-cyan);
-  font-size: 0.55rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  background: rgba(0, 229, 255, 0.16);
 }
 
 .scanner-beam {
@@ -515,6 +504,66 @@ body {
   background: var(--accent-cyan);
   color: black;
   border-color: var(--accent-cyan);
+}
+
+.history-panel {
+  margin-top: 1.25rem;
+  background: rgba(6, 10, 24, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.9rem;
+  color: #f3f4f6;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.history-item:hover {
+  transform: translateX(4px);
+}
+
+.history-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  min-width: 80px;
+}
+
+.history-event {
+  font-size: 0.85rem;
+  color: white;
+  flex: 1;
+}
+
+.history-empty {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 1rem 0.5rem;
 }
 
 /* Exercises recommendations section */
