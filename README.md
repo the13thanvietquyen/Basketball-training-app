@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Mục lục
+## Mục lục
 
 - [Tổng quan](#-tổng-quan)
 - [Tính năng chính](#-tính-năng-chính)
@@ -17,20 +17,20 @@
 
 ---
 
-## 🎯 Tổng quan
+## Tổng quan
 
 **Pro Hoop Training** là ứng dụng web hỗ trợ tập luyện bóng rổ thông minh, được thiết kế với giao diện hiện đại theo phong cách **Dark Theme + Glassmorphism**. Ứng dụng cung cấp giáo án cá nhân hóa dựa trên vị trí thi đấu của người chơi, bao gồm cả **giáo án kỹ năng** (4 buổi/tuần) và **giáo án thể lực** (3 ngày/tuần).
 
 ---
 
-## ✨ Tính năng chính
+## Tính năng chính
 
-- 🔐 **Đăng ký / Đăng nhập** — Xác thực tài khoản với mật khẩu mã hóa bcrypt
-- 🏅 **Lọc theo 5 vị trí thi đấu** — PG, SG, SF, PF, C
-- 📅 **Giáo án Kỹ năng** — Lịch trình 4 buổi/tuần với bài tập chuyên biệt theo vị trí
-- 💪 **Giáo án Thể lực & Sức mạnh** — Lịch trình 3 ngày/tuần
-- 🎥 **Trình phát Video hướng dẫn** — Modal pop-up nhúng video YouTube
-- 📷 **Giả lập Camera AI** — Theo dõi động tác qua webcam trình duyệt với hiệu ứng quét tia sáng và hộp phát hiện mục tiêu
+- **Đăng ký / Đăng nhập** — Xác thực tài khoản với mật khẩu mã hóa bcrypt
+- **Lọc theo 5 vị trí thi đấu** — PG, SG, SF, PF, C
+- **Giáo án Kỹ năng** — Lịch trình 4 buổi/tuần với bài tập chuyên biệt theo vị trí
+- **Giáo án Thể lực & Sức mạnh** — Lịch trình 3 ngày/tuần
+- **Trình phát Video hướng dẫn** — Modal pop-up nhúng video YouTube
+- **Giả lập Camera AI** — Theo dõi động tác qua webcam trình duyệt với hiệu ứng quét tia sáng và hộp phát hiện mục tiêu
 
 ---
 
@@ -46,7 +46,7 @@
 
 ---
 
-## 📁 Cấu trúc thư mục
+##  Cấu trúc thư mục
 
 ```
 Basketball-App-Project/
@@ -81,7 +81,7 @@ Basketball-App-Project/
 
 ---
 
-## 💻 Yêu cầu hệ thống
+## Yêu cầu hệ thống
 
 - **Python** ≥ 3.10
 - **Node.js** ≥ 18
@@ -90,7 +90,7 @@ Basketball-App-Project/
 
 ---
 
-## 🚀 Hướng dẫn cài đặt & chạy
+## Hướng dẫn cài đặt & chạy
 
 ### 1. Clone dự án
 
@@ -124,9 +124,9 @@ python seed.py
 uvicorn main:app --reload
 ```
 
-> 🟢 Backend sẽ chạy tại: **http://localhost:8000**
+> Backend sẽ chạy tại: **http://localhost:8000**
 >
-> 📖 Truy cập tài liệu API tự động tại: **http://localhost:8000/docs**
+ Truy cập tài liệu API tự động tại: **http://localhost:8000/docs**
 
 ### 3. Cài đặt & chạy Frontend
 
@@ -143,7 +143,7 @@ npm install
 npm run dev
 ```
 
-> 🟢 Frontend sẽ chạy tại: **http://localhost:5173**
+>  Frontend sẽ chạy tại: **http://localhost:5173**
 
 ### 4. Sử dụng ứng dụng
 
@@ -156,7 +156,7 @@ npm run dev
 
 ---
 
-## 📄 Tài liệu dự án
+## Tài liệu dự án
 
 | Tài liệu | Vị trí |
 |-----------|--------|
@@ -164,12 +164,4 @@ npm run dev
 | Báo cáo giữa kỳ | `Document/MidtermReport/` |
 | Báo cáo cuối kỳ | `Document/FinalReport/` |
 
----
 
-## 👨‍💻 Tác giả
-
-Dự án được phát triển bởi sinh viên trong khuôn khổ môn học thực tập tại trường.
-
----
-
-> ⭐ Nếu bạn thấy dự án hữu ích, hãy để lại một **Star** trên GitHub!
